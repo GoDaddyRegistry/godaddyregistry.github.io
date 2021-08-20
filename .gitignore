@@ -1,0 +1,10 @@
+.idea
+*.iml
+
+# General macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
