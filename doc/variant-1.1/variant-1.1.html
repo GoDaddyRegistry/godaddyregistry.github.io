@@ -1,398 +1,1519 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html lang="en"><head><title>Domain Name Variant Extension Mapping for the
-			Extensible Provisioning
-			Protocol (EPP)</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="description" content="Domain Name Variant Extension Mapping for the
-			Extensible Provisioning
-			Protocol (EPP)">
-<meta name="keywords" content="EPP">
-<meta name="generator" content="xml2rfc v1.36 (http://xml.resource.org/)">
-<style type='text/css'><!--
-        body {
-                font-family: verdana, charcoal, helvetica, arial, sans-serif;
-                font-size: small; color: #000; background-color: #FFF;
-                margin: 2em;
-        }
-        h1, h2, h3, h4, h5, h6 {
-                font-family: helvetica, monaco, "MS Sans Serif", arial, sans-serif;
-                font-weight: bold; font-style: normal;
-        }
-        h1 { color: #900; background-color: transparent; text-align: right; }
-        h3 { color: #333; background-color: transparent; }
+<!DOCTYPE html>
+<html lang="en" class="Internet-Draft">
+<head>
+<meta charset="utf-8">
+<meta content="Common,Latin" name="scripts">
+<meta content="initial-scale=1.0" name="viewport">
+<title>Domain Name Variant Extension Mapping for the Extensible Provisioning Protocol (EPP)</title>
+<meta content="Quoc Pham" name="author">
+<meta content="Sharon Jonnalagadda" name="author">
+<meta content="
+       
+ This document describes an Extensible Provisioning Protocol (EPP)
+ extension mapping for the provisioning and management of variant
+ domain names as attributes of domain objects.
+       
+    " name="description">
+<meta content="xml2rfc 3.22.0" name="generator">
+<meta content="EPP" name="keyword">
+<meta name="ietf.draft">
+<!-- Generator version information:
+  xml2rfc 3.22.0
+    Python 3.12.7
+    ConfigArgParse 1.7
+    google-i18n-address 3.1.0
+    intervaltree 3.1.0
+    Jinja2 3.1.4
+    lxml 4.9.4
+    platformdirs 4.2.2
+    pycountry 24.6.1
+    PyYAML 6.0.1
+    requests 2.32.3
+    setuptools 71.1.0
+    wcwidth 0.2.13
+-->
+<link href="variant-1.1v3.xml" rel="alternate" type="application/rfc+xml">
+<link href="#copyright" rel="license">
+<style type="text/css">/*
 
-        td.RFCbug {
-                font-size: x-small; text-decoration: none;
-                width: 30px; height: 30px; padding-top: 2px;
-                text-align: justify; vertical-align: middle;
-                background-color: #000;
-        }
-        td.RFCbug span.RFC {
-                font-family: monaco, charcoal, geneva, "MS Sans Serif", helvetica, verdana, sans-serif;
-                font-weight: bold; color: #666;
-        }
-        td.RFCbug span.hotText {
-                font-family: charcoal, monaco, geneva, "MS Sans Serif", helvetica, verdana, sans-serif;
-                font-weight: normal; text-align: center; color: #FFF;
-        }
+  NOTE: Changes at the bottom of this file overrides some earlier settings.
 
-        table.TOCbug { width: 30px; height: 15px; }
-        td.TOCbug {
-                text-align: center; width: 30px; height: 15px;
-                color: #FFF; background-color: #900;
-        }
-        td.TOCbug a {
-                font-family: monaco, charcoal, geneva, "MS Sans Serif", helvetica, sans-serif;
-                font-weight: bold; font-size: x-small; text-decoration: none;
-                color: #FFF; background-color: transparent;
-        }
+  Once the style has stabilized and has been adopted as an official RFC style,
+  this can be consolidated so that style settings occur only in one place, but
+  for now the contents of this file consists first of the initial CSS work as
+  provided to the RFC Formatter (xml2rfc) work, followed by itemized and
+  commented changes found necessary during the development of the v3
+  formatters.
 
-        td.header {
-                font-family: arial, helvetica, sans-serif; font-size: x-small;
-                vertical-align: top; width: 33%;
-                color: #FFF; background-color: #666;
-        }
-        td.author { font-weight: bold; font-size: x-small; margin-left: 4em; }
-        td.author-text { font-size: x-small; }
+*/
 
-        /* info code from SantaKlauss at http://www.madaboutstyle.com/tooltip2.html */
-        a.info {
-                /* This is the key. */
-                position: relative;
-                z-index: 24;
-                text-decoration: none;
-        }
-        a.info:hover {
-                z-index: 25;
-                color: #FFF; background-color: #900;
-        }
-        a.info span { display: none; }
-        a.info:hover span.info {
-                /* The span will display just on :hover state. */
-                display: block;
-                position: absolute;
-                font-size: smaller;
-                top: 2em; left: -5em; width: 15em;
-                padding: 2px; border: 1px solid #333;
-                color: #900; background-color: #EEE;
-                text-align: left;
-        }
+/* fonts */
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans'); /* Sans-serif */
+@import url('https://fonts.googleapis.com/css?family=Noto+Serif'); /* Serif (print) */
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono'); /* Monospace */
 
-        a { font-weight: bold; }
-        a:link    { color: #900; background-color: transparent; }
-        a:visited { color: #633; background-color: transparent; }
-        a:active  { color: #633; background-color: transparent; }
+:root {
+  --font-sans: 'Noto Sans', Arial, Helvetica, sans-serif;
+  --font-serif: 'Noto Serif', 'Times', 'Times New Roman', serif;
+  --font-mono: 'Roboto Mono', Courier, 'Courier New', monospace;
+}
 
-        p { margin-left: 2em; margin-right: 2em; }
-        p.copyright { font-size: x-small; }
-        p.toc { font-size: small; font-weight: bold; margin-left: 3em; }
-        table.toc { margin: 0 0 0 3em; padding: 0; border: 0; vertical-align: text-top; }
-        td.toc { font-size: small; font-weight: bold; vertical-align: text-top; }
+@viewport {
+  zoom: 1.0;
+}
+@-ms-viewport {
+  width: extend-to-zoom;
+  zoom: 1.0;
+}
+/* general and mobile first */
+html {
+}
+body {
+  max-width: 90%;
+  margin: 1.5em auto;
+  color: #222;
+  background-color: #fff;
+  font-size: 14px;
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  scroll-behavior: smooth;
+  overflow-wrap: break-word;
+}
+.ears {
+  display: none;
+}
 
-        ol.text { margin-left: 2em; margin-right: 2em; }
-        ul.text { margin-left: 2em; margin-right: 2em; }
-        li      { margin-left: 3em; }
+/* headings */
+#title, h1, h2, h3, h4, h5, h6 {
+  margin: 1em 0 0.5em;
+  font-weight: bold;
+  line-height: 1.3;
+}
+#title {
+  clear: both;
+  border-bottom: 1px solid #ddd;
+  margin: 0 0 0.5em 0;
+  padding: 1em 0 0.5em;
+}
+.author {
+  padding-bottom: 4px;
+}
+h1 {
+  font-size: 26px;
+  margin: 1em 0;
+}
+h2 {
+  font-size: 22px;
+  margin-top: -20px;  /* provide offset for in-page anchors */
+  padding-top: 33px;
+}
+h3 {
+  font-size: 18px;
+  margin-top: -36px;  /* provide offset for in-page anchors */
+  padding-top: 42px;
+}
+h4 {
+  font-size: 16px;
+  margin-top: -36px;  /* provide offset for in-page anchors */
+  padding-top: 42px;
+}
+h5, h6 {
+  font-size: 14px;
+}
+#n-copyright-notice {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 1em;
+  margin-bottom: 1em;
+}
+/* general structure */
+p {
+  padding: 0;
+  margin: 0 0 1em 0;
+  text-align: left;
+}
+div, span {
+  position: relative;
+}
+div {
+  margin: 0;
+}
+.alignRight.art-text {
+  background-color: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 3px;
+  padding: 1em 1em 0;
+  margin-bottom: 1.5em;
+}
+.alignRight.art-text pre {
+  padding: 0;
+}
+.alignRight {
+  margin: 1em 0;
+}
+.alignRight > *:first-child {
+  border: none;
+  margin: 0;
+  float: right;
+  clear: both;
+}
+.alignRight > *:nth-child(2) {
+  clear: both;
+  display: block;
+  border: none;
+}
+svg {
+  display: block;
+}
+svg[font-family~="serif" i], svg [font-family~="serif" i] {
+  font-family: var(--font-serif);
+}
+svg[font-family~="sans-serif" i], svg [font-family~="sans-serif" i] {
+  font-family: var(--font-sans);
+}
+svg[font-family~="monospace" i], svg [font-family~="monospace" i] {
+  font-family: var(--font-mono);
+}
+.alignCenter.art-text {
+  background-color: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 3px;
+  padding: 1em 1em 0;
+  margin-bottom: 1.5em;
+}
+.alignCenter.art-text pre {
+  padding: 0;
+}
+.alignCenter {
+  margin: 1em 0;
+}
+.alignCenter > *:first-child {
+  display: table;
+  border: none;
+  margin: 0 auto;
+}
 
-        /* RFC-2629 <spanx>s and <artwork>s. */
-        em     { font-style: italic; }
-        strong { font-weight: bold; }
-        dfn    { font-weight: bold; font-style: normal; }
-        cite   { font-weight: normal; font-style: normal; }
-        tt     { color: #036; }
-        tt, pre, pre dfn, pre em, pre cite, pre span {
-                font-family: "Courier New", Courier, monospace; font-size: small;
-        }
-        pre {
-                text-align: left; padding: 4px;
-                color: #000; background-color: #CCC;
-        }
-        pre dfn  { color: #900; }
-        pre em   { color: #66F; background-color: #FFC; font-weight: normal; }
-        pre .key { color: #33C; font-weight: bold; }
-        pre .id  { color: #900; }
-        pre .str { color: #000; background-color: #CFF; }
-        pre .val { color: #066; }
-        pre .rep { color: #909; }
-        pre .oth { color: #000; background-color: #FCF; }
-        pre .err { background-color: #FCC; }
+/* lists */
+ol, ul {
+  padding: 0;
+  margin: 0 0 1em 2em;
+}
+ol ol, ul ul, ol ul, ul ol {
+  margin-left: 1em;
+}
+li {
+  margin: 0 0 0.25em 0;
+}
+.ulCompact li {
+  margin: 0;
+}
+ul.empty, .ulEmpty {
+  list-style-type: none;
+}
+ul.empty li, .ulEmpty li {
+  margin-top: 0.5em;
+}
+ul.ulBare, li.ulBare {
+  margin-left: 0em !important;
+}
+ul.compact, .ulCompact,
+ol.compact, .olCompact {
+  line-height: 100%;
+  margin: 0 0 0 2em;
+}
 
-        /* RFC-2629 <texttable>s. */
-        table.all, table.full, table.headers, table.none {
-                font-size: small; text-align: center; border-width: 2px;
-                vertical-align: top; border-collapse: collapse;
-        }
-        table.all, table.full { border-style: solid; border-color: black; }
-        table.headers, table.none { border-style: none; }
-        th {
-                font-weight: bold; border-color: black;
-                border-width: 2px 2px 3px 2px;
-        }
-        table.all th, table.full th { border-style: solid; }
-        table.headers th { border-style: none none solid none; }
-        table.none th { border-style: none; }
-        table.all td {
-                border-style: solid; border-color: #333;
-                border-width: 1px 2px;
-        }
-        table.full td, table.headers td, table.none td { border-style: none; }
+/* definition lists */
+dl {
+}
+dl > dt {
+  float: left;
+  margin-right: 1em;
+}
+/* 
+dl.nohang > dt {
+  float: none;
+}
+*/
+dl > dd {
+  margin-bottom: .8em;
+  min-height: 1.3em;
+}
+dl.compact > dd, .dlCompact > dd {
+  margin-bottom: 0em;
+}
+dl > dd > dl {
+  margin-top: 0.5em;
+  margin-bottom: 0em;
+}
 
-        hr { height: 1px; }
-        hr.insert {
-                width: 80%; border-style: none; border-width: 0;
-                color: #CCC; background-color: #CCC;
-        }
---></style>
+/* links */
+a {
+  text-decoration: none;
+}
+a[href] {
+  color: #22e; /* Arlen: WCAG 2019 */
+}
+a[href]:hover {
+  background-color: #f2f2f2;
+}
+figcaption a[href],
+a[href].selfRef {
+  color: #222;
+}
+/* XXX probably not this:
+a.selfRef:hover {
+  background-color: transparent;
+  cursor: default;
+} */
+
+/* Figures */
+tt, code, pre {
+  background-color: #f9f9f9;
+  font-family: var(--font-mono);
+}
+pre {
+  border: 1px solid #eee;
+  margin: 0;
+  padding: 1em;
+}
+img {
+  max-width: 100%;
+}
+figure {
+  margin: 0;
+}
+figure blockquote {
+  margin: 0.8em 0.4em 0.4em;
+}
+figcaption {
+  font-style: italic;
+  margin: 0 0 1em 0;
+}
+@media screen {
+  pre {
+    overflow-x: auto;
+    max-width: 100%;
+    max-width: calc(100% - 22px);
+  }
+}
+
+/* aside, blockquote */
+aside, blockquote {
+  margin-left: 0;
+  padding: 1.2em 2em;
+}
+blockquote {
+  background-color: #f9f9f9;
+  color: #111; /* Arlen: WCAG 2019 */
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  margin: 1em 0;
+}
+blockquote > *:last-child {
+  margin-bottom: 0;
+}
+cite {
+  display: block;
+  text-align: right;
+  font-style: italic;
+}
+.xref {
+  overflow-wrap: normal;
+}
+
+/* tables */
+table {
+  width: 100%;
+  margin: 0 0 1em;
+  border-collapse: collapse;
+  border: 1px solid #eee;
+}
+th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: 0.5em 0.75em;
+}
+th {
+  text-align: left;
+  background-color: #e9e9e9;
+}
+tr:nth-child(2n+1) > td {
+  background-color: #f5f5f5;
+}
+table caption {
+  font-style: italic;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+table p {
+  /* XXX to avoid bottom margin on table row signifiers. If paragraphs should
+     be allowed within tables more generally, it would be far better to select on a class. */
+  margin: 0;
+}
+
+/* pilcrow */
+a.pilcrow {
+  color: #666; /* Arlen: AHDJ 2019 */
+  text-decoration: none;
+  visibility: hidden;
+  user-select: none;
+  -ms-user-select: none;
+  -o-user-select:none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+@media screen {
+  aside:hover > a.pilcrow,
+  p:hover > a.pilcrow,
+  blockquote:hover > a.pilcrow,
+  div:hover > a.pilcrow,
+  li:hover > a.pilcrow,
+  pre:hover > a.pilcrow {
+    visibility: visible;
+  }
+  a.pilcrow:hover {
+    background-color: transparent;
+  }
+}
+
+/* misc */
+hr {
+  border: 0;
+  border-top: 1px solid #eee;
+}
+.bcp14 {
+  font-variant: small-caps;
+}
+
+.role {
+  font-variant: all-small-caps;
+}
+
+/* info block */
+#identifiers {
+  margin: 0;
+  font-size: 0.9em;
+}
+#identifiers dt {
+  width: 3em;
+  clear: left;
+}
+#identifiers dd {
+  float: left;
+  margin-bottom: 0;
+}
+/* Fix PDF info block run off issue */
+@media print {
+  #identifiers dd {
+    float: none;
+  }
+}
+#identifiers .authors .author {
+  display: inline-block;
+  margin-right: 1.5em;
+}
+#identifiers .authors .org {
+  font-style: italic;
+}
+
+/* The prepared/rendered info at the very bottom of the page */
+.docInfo {
+  color: #666; /* Arlen: WCAG 2019 */
+  font-size: 0.9em;
+  font-style: italic;
+  margin-top: 2em;
+}
+.docInfo .prepared {
+  float: left;
+}
+.docInfo .prepared {
+  float: right;
+}
+
+/* table of contents */
+#toc  {
+  padding: 0.75em 0 2em 0;
+  margin-bottom: 1em;
+}
+nav.toc ul {
+  margin: 0 0.5em 0 0;
+  padding: 0;
+  list-style: none;
+}
+nav.toc li {
+  line-height: 1.3em;
+  margin: 0.75em 0;
+  padding-left: 1.2em;
+  text-indent: -1.2em;
+}
+/* references */
+.references dt {
+  text-align: right;
+  font-weight: bold;
+  min-width: 7em;
+}
+.references dd {
+  margin-left: 8em;
+  overflow: auto;
+}
+
+.refInstance {
+  margin-bottom: 1.25em;
+}
+
+.refSubseries {
+  margin-bottom: 1.25em;
+}
+
+.references .ascii {
+  margin-bottom: 0.25em;
+}
+
+/* index */
+.index ul {
+  margin: 0 0 0 1em;
+  padding: 0;
+  list-style: none;
+}
+.index ul ul {
+  margin: 0;
+}
+.index li {
+  margin: 0;
+  text-indent: -2em;
+  padding-left: 2em;
+  padding-bottom: 5px;
+}
+.indexIndex {
+  margin: 0.5em 0 1em;
+}
+.index a {
+  font-weight: 700;
+}
+/* make the index two-column on all but the smallest screens */
+@media (min-width: 600px) {
+  .index ul {
+    -moz-column-count: 2;
+    -moz-column-gap: 20px;
+  }
+  .index ul ul {
+    -moz-column-count: 1;
+    -moz-column-gap: 0;
+  }
+}
+
+/* authors */
+address.vcard {
+  font-style: normal;
+  margin: 1em 0;
+}
+
+address.vcard .nameRole {
+  font-weight: 700;
+  margin-left: 0;
+}
+address.vcard .label {
+  font-family: var(--font-sans);
+  margin: 0.5em 0;
+}
+address.vcard .type {
+  display: none;
+}
+.alternative-contact {
+  margin: 1.5em 0 1em;
+}
+hr.addr {
+  border-top: 1px dashed;
+  margin: 0;
+  color: #ddd;
+  max-width: calc(100% - 16px);
+}
+
+/* temporary notes */
+.rfcEditorRemove::before {
+  position: absolute;
+  top: 0.2em;
+  right: 0.2em;
+  padding: 0.2em;
+  content: "The RFC Editor will remove this note";
+  color: #9e2a00; /* Arlen: WCAG 2019 */
+  background-color: #ffd; /* Arlen: WCAG 2019 */
+}
+.rfcEditorRemove {
+  position: relative;
+  padding-top: 1.8em;
+  background-color: #ffd; /* Arlen: WCAG 2019 */
+  border-radius: 3px;
+}
+.cref {
+  background-color: #ffd; /* Arlen: WCAG 2019 */
+  padding: 2px 4px;
+}
+.crefSource {
+  font-style: italic;
+}
+/* alternative layout for smaller screens */
+@media screen and (max-width: 1023px) {
+  body {
+    padding-top: 2em;
+  }
+  #title {
+    padding: 1em 0;
+  }
+  h1 {
+    font-size: 24px;
+  }
+  h2 {
+    font-size: 20px;
+    margin-top: -18px;  /* provide offset for in-page anchors */
+    padding-top: 38px;
+  }
+  #identifiers dd {
+    max-width: 60%;
+  }
+  #toc {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    padding: 0;
+    margin: 0;
+    background-color: inherit;
+    border-bottom: 1px solid #ccc;
+  }
+  #toc h2 {
+    margin: -1px 0 0 0;
+    padding: 4px 0 4px 6px;
+    padding-right: 1em;
+    min-width: 190px;
+    font-size: 1.1em;
+    text-align: right;
+    background-color: #444;
+    color: white;
+    cursor: pointer;
+  }
+  #toc h2::before { /* css hamburger */
+    float: right;
+    position: relative;
+    width: 1em;
+    height: 1px;
+    left: -164px;
+    margin: 6px 0 0 0;
+    background: white none repeat scroll 0 0;
+    box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
+    content: "";
+  }
+  #toc nav {
+    display: none;
+    padding: 0.5em 1em 1em;
+    overflow: auto;
+    height: calc(100vh - 48px);
+    border-left: 1px solid #ddd;
+  }
+}
+
+/* alternative layout for wide screens */
+@media screen and (min-width: 1024px) {
+  body {
+    max-width: 724px;
+    margin: 42px auto;
+    padding-left: 1.5em;
+    padding-right: 29em;
+  }
+  #toc {
+    position: fixed;
+    top: 42px;
+    right: 42px;
+    width: 25%;
+    margin: 0;
+    padding: 0 1em;
+    z-index: 1;
+  }
+  #toc h2 {
+    border-top: none;
+    border-bottom: 1px solid #ddd;
+    font-size: 1em;
+    font-weight: normal;
+    margin: 0;
+    padding: 0.25em 1em 1em 0;
+  }
+  #toc nav {
+    display: block;
+    height: calc(90vh - 84px);
+    bottom: 0;
+    padding: 0.5em 0 0;
+    overflow: auto;
+  }
+  img { /* future proofing */
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* pagination */
+@media print {
+  body {
+    width: 100%;
+  }
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+  #n-copyright-notice {
+    border-bottom: none;
+  }
+  #toc, #n-introduction {
+    page-break-before: always;
+  }
+  #toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  figure, pre {
+    page-break-inside: avoid;
+  }
+  figure {
+    overflow: scroll;
+  }
+  .breakable pre {
+    break-inside: auto;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+  h2+*, h3+*, h4+*, h5+*, h6+* {
+    page-break-before: avoid;
+  }
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 10pt;
+  }
+  table {
+    border: 1px solid #ddd;
+  }
+  td {
+    border-top: 1px solid #ddd;
+  }
+}
+
+/* This is commented out here, as the string-set: doesn't
+   pass W3C validation currently */
+/*
+.ears thead .left {
+  string-set: ears-top-left content();
+}
+
+.ears thead .center {
+  string-set: ears-top-center content();
+}
+
+.ears thead .right {
+  string-set: ears-top-right content();
+}
+
+.ears tfoot .left {
+  string-set: ears-bottom-left content();
+}
+
+.ears tfoot .center {
+  string-set: ears-bottom-center content();
+}
+
+.ears tfoot .right {
+  string-set: ears-bottom-right content();
+}
+*/
+
+@page :first {
+  padding-top: 0;
+  @top-left {
+    content: normal;
+    border: none;
+  }
+  @top-center {
+    content: normal;
+    border: none;
+  }
+  @top-right {
+    content: normal;
+    border: none;
+  }
+}
+
+@page {
+  size: A4;
+  margin-bottom: 45mm;
+  padding-top: 20px;
+  /* The following is commented out here, but set appropriately by in code, as
+     the content depends on the document */
+  /*
+  @top-left {
+    content: 'Internet-Draft';
+    vertical-align: bottom;
+    border-bottom: solid 1px #ccc;
+  }
+  @top-left {
+    content: string(ears-top-left);
+    vertical-align: bottom;
+    border-bottom: solid 1px #ccc;
+  }
+  @top-center {
+    content: string(ears-top-center);
+    vertical-align: bottom;
+    border-bottom: solid 1px #ccc;
+  }
+  @top-right {
+    content: string(ears-top-right);
+    vertical-align: bottom;
+    border-bottom: solid 1px #ccc;
+  }
+  @bottom-left {
+    content: string(ears-bottom-left);
+    vertical-align: top;
+    border-top: solid 1px #ccc;
+  }
+  @bottom-center {
+    content: string(ears-bottom-center);
+    vertical-align: top;
+    border-top: solid 1px #ccc;
+  }
+  @bottom-right {
+      content: '[Page ' counter(page) ']';
+      vertical-align: top;
+      border-top: solid 1px #ccc;
+  }
+  */
+
+}
+
+/* Changes introduced to fix issues found during implementation */
+/* Make sure links are clickable even if overlapped by following H* */
+a {
+  z-index: 2;
+}
+/* Separate body from document info even without intervening H1 */
+section {
+  clear: both;
+}
+
+
+/* Top align author divs, to avoid names without organization dropping level with org names */
+.author {
+  vertical-align: top;
+}
+
+/* Leave room in document info to show Internet-Draft on one line */
+#identifiers dt {
+  width: 8em;
+}
+
+/* Don't waste quite as much whitespace between label and value in doc info */
+#identifiers dd {
+  margin-left: 1em;
+}
+
+/* Give floating toc a background color (needed when it's a div inside section */
+#toc {
+  background-color: white;
+}
+
+/* Make the collapsed ToC header render white on gray also when it's a link */
+@media screen and (max-width: 1023px) {
+  #toc h2 a,
+  #toc h2 a:link,
+  #toc h2 a:focus,
+  #toc h2 a:hover,
+  #toc a.toplink,
+  #toc a.toplink:hover {
+    color: white;
+    background-color: #444;
+    text-decoration: none;
+  }
+}
+
+/* Give the bottom of the ToC some whitespace */
+@media screen and (min-width: 1024px) {
+  #toc {
+    padding: 0 0 1em 1em;
+  }
+}
+
+/* Style section numbers with more space between number and title */
+.section-number {
+  padding-right: 0.5em;
+}
+
+/* prevent monospace from becoming overly large */
+tt, code, pre {
+  font-size: 95%;
+}
+
+/* Fix the height/width aspect for ascii art*/
+.sourcecode pre,
+.art-text pre {
+  line-height: 1.12;
+}
+
+
+/* Add styling for a link in the ToC that points to the top of the document */
+a.toplink {
+  float: right;
+  margin-right: 0.5em;
+}
+
+/* Fix the dl styling to match the RFC 7992 attributes */
+dl > dt,
+dl.dlParallel > dt {
+  float: left;
+  margin-right: 1em;
+}
+dl.dlNewline > dt {
+  float: none;
+}
+
+/* Provide styling for table cell text alignment */
+table td.text-left,
+table th.text-left {
+  text-align: left;
+}
+table td.text-center,
+table th.text-center {
+  text-align: center;
+}
+table td.text-right,
+table th.text-right {
+  text-align: right;
+}
+
+/* Make the alternative author contact information look less like just another
+   author, and group it closer with the primary author contact information */
+.alternative-contact {
+  margin: 0.5em 0 0.25em 0;
+}
+address .non-ascii {
+  margin: 0 0 0 2em;
+}
+
+/* With it being possible to set tables with alignment
+  left, center, and right, { width: 100%; } does not make sense */
+table {
+  width: auto;
+}
+
+/* Avoid reference text that sits in a block with very wide left margin,
+   because of a long floating dt label.*/
+.references dd {
+  overflow: visible;
+}
+
+/* Control caption placement */
+caption {
+  caption-side: bottom;
+}
+
+/* Limit the width of the author address vcard, so names in right-to-left
+   script don't end up on the other side of the page. */
+
+address.vcard {
+  max-width: 30em;
+  margin-right: auto;
+}
+
+/* For address alignment dependent on LTR or RTL scripts */
+address div.left {
+  text-align: left;
+}
+address div.right {
+  text-align: right;
+}
+
+/* Provide table alignment support.  We can't use the alignX classes above
+   since they do unwanted things with caption and other styling. */
+table.right {
+ margin-left: auto;
+ margin-right: 0;
+}
+table.center {
+ margin-left: auto;
+ margin-right: auto;
+}
+table.left {
+ margin-left: 0;
+ margin-right: auto;
+}
+
+/* Give the table caption label the same styling as the figcaption */
+caption a[href] {
+  color: #222;
+}
+
+@media print {
+  .toplink {
+    display: none;
+  }
+
+  /* avoid overwriting the top border line with the ToC header */
+  #toc {
+    padding-top: 1px;
+  }
+
+  /* Avoid page breaks inside dl and author address entries */
+  .vcard {
+    page-break-inside: avoid;
+  }
+
+}
+/* Tweak the bcp14 keyword presentation */
+.bcp14 {
+  font-variant: small-caps;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+/* Tweak the invisible space above H* in order not to overlay links in text above */
+ h2 {
+  margin-top: -18px;  /* provide offset for in-page anchors */
+  padding-top: 31px;
+ }
+ h3 {
+  margin-top: -18px;  /* provide offset for in-page anchors */
+  padding-top: 24px;
+ }
+ h4 {
+  margin-top: -18px;  /* provide offset for in-page anchors */
+  padding-top: 24px;
+ }
+/* Float artwork pilcrow to the right */
+@media screen {
+  .artwork a.pilcrow {
+    display: block;
+    line-height: 0.7;
+    margin-top: 0.15em;
+  }
+}
+/* Make pilcrows on dd visible */
+@media screen {
+  dd:hover > a.pilcrow {
+    visibility: visible;
+  }
+}
+/* Make the placement of figcaption match that of a table's caption
+   by removing the figure's added bottom margin */
+.alignLeft.art-text,
+.alignCenter.art-text,
+.alignRight.art-text {
+   margin-bottom: 0;
+}
+.alignLeft,
+.alignCenter,
+.alignRight {
+  margin: 1em 0 0 0;
+}
+/* In print, the pilcrow won't show on hover, so prevent it from taking up space,
+   possibly even requiring a new line */
+@media print {
+  a.pilcrow {
+    display: none;
+  }
+}
+/* Styling for the external metadata */
+div#external-metadata {
+  background-color: #eee;
+  padding: 0.5em;
+  margin-bottom: 0.5em;
+  display: none;
+}
+div#internal-metadata {
+  padding: 0.5em;                       /* to match the external-metadata padding */
+}
+/* Styling for title RFC Number */
+h1#rfcnum {
+  clear: both;
+  margin: 0 0 -1em;
+  padding: 1em 0 0 0;
+}
+/* Make .olPercent look the same as <ol><li> */
+dl.olPercent > dd {
+  margin-bottom: 0.25em;
+  min-height: initial;
+}
+/* Give aside some styling to set it apart */
+aside {
+  border-left: 1px solid #ddd;
+  margin: 1em 0 1em 2em;
+  padding: 0.2em 2em;
+}
+aside > dl,
+aside > ol,
+aside > ul,
+aside > table,
+aside > p {
+  margin-bottom: 0.5em;
+}
+/* Additional page break settings */
+@media print {
+  figcaption, table caption {
+    page-break-before: avoid;
+  }
+}
+/* Font size adjustments for print */
+@media print {
+  body  { font-size: 10pt;      line-height: normal; max-width: 96%; }
+  h1    { font-size: 1.72em;    padding-top: 1.5em; } /* 1*1.2*1.2*1.2 */
+  h2    { font-size: 1.44em;    padding-top: 1.5em; } /* 1*1.2*1.2 */
+  h3    { font-size: 1.2em;     padding-top: 1.5em; } /* 1*1.2 */
+  h4    { font-size: 1em;       padding-top: 1.5em; }
+  h5, h6 { font-size: 1em;      margin: initial; padding: 0.5em 0 0.3em; }
+}
+/* Sourcecode margin in print, when there's no pilcrow */
+@media print {
+  .artwork,
+  .artwork > pre,
+  .sourcecode {
+    margin-bottom: 1em;
+  }
+}
+/* Avoid narrow tables forcing too narrow table captions, which may render badly */
+table {
+  min-width: 20em;
+}
+/* ol type a */
+ol.type-a { list-style-type: lower-alpha; }
+ol.type-A { list-style-type: upper-alpha; }
+ol.type-i { list-style-type: lower-roman; }
+ol.type-I { list-style-type: upper-roman; }
+/* Apply the print table and row borders in general, on request from the RPC,
+and increase the contrast between border and odd row background slightly */
+table {
+  border: 1px solid #ddd;
+}
+td {
+  border-top: 1px solid #ddd;
+}
+tr {
+  break-inside: avoid;
+}
+tr:nth-child(2n+1) > td {
+  background-color: #f8f8f8;
+}
+/* Use style rules to govern display of the TOC. */
+@media screen and (max-width: 1023px) {
+  #toc nav { display: none; }
+  #toc.active nav { display: block; }
+}
+/* Add support for keepWithNext */
+.keepWithNext {
+  break-after: avoid-page;
+  break-after: avoid-page;
+}
+/* Add support for keepWithPrevious */
+.keepWithPrevious {
+  break-before: avoid-page;
+}
+/* Change the approach to avoiding breaks inside artwork etc. */
+figure, pre, table, .artwork, .sourcecode  {
+  break-before: auto;
+  break-after: auto;
+}
+/* Avoid breaks between <dt> and <dd> */
+dl {
+  break-before: auto;
+  break-inside: auto;
+}
+dt {
+  break-before: auto;
+  break-after: avoid-page;
+}
+dd {
+  break-before: avoid-page;
+  break-after: auto;
+  orphans: 3;
+  widows: 3
+}
+span.break, dd.break {
+  margin-bottom: 0;
+  min-height: 0;
+  break-before: auto;
+  break-inside: auto;
+  break-after: auto;
+}
+/* Undo break-before ToC */
+@media print {
+  #toc {
+    break-before: auto;
+  }
+}
+/* Text in compact lists should not get extra bottom margin space,
+   since that would makes the list not compact */
+ul.compact p, .ulCompact p,
+ol.compact p, .olCompact p {
+ margin: 0;
+}
+/* But the list as a whole needs the extra space at the end */
+section ul.compact,
+section .ulCompact,
+section ol.compact,
+section .olCompact {
+  margin-bottom: 1em;                    /* same as p not within ul.compact etc. */
+}
+/* The tt and code background above interferes with for instance table cell
+   backgrounds.  Changed to something a bit more selective. */
+tt, code {
+  background-color: transparent;
+}
+p tt, p code, li tt, li code {
+  background-color: #f8f8f8;
+}
+/* Tweak the pre margin -- 0px doesn't come out well */
+pre {
+   margin-top: 0.5px;
+}
+/* Tweak the compact list text */
+ul.compact, .ulCompact,
+ol.compact, .olCompact,
+dl.compact, .dlCompact {
+  line-height: normal;
+}
+/* Don't add top margin for nested lists */
+li > ul, li > ol, li > dl,
+dd > ul, dd > ol, dd > dl,
+dl > dd > dl {
+  margin-top: initial;
+}
+/* Elements that should not be rendered on the same line as a <dt> */
+/* This should match the element list in writer.text.TextWriter.render_dl() */
+dd > div.artwork:first-child,
+dd > aside:first-child,
+dd > figure:first-child,
+dd > ol:first-child,
+dd > div.sourcecode:first-child,
+dd > table:first-child,
+dd > ul:first-child {
+  clear: left;
+}
+/* fix for weird browser behaviour when <dd/> is empty */
+dt+dd:empty::before{
+  content: "\00a0";
+}
+/* Make paragraph spacing inside <li> smaller than in body text, to fit better within the list */
+li > p {
+  margin-bottom: 0.5em
+}
+/* Don't let p margin spill out from inside list items */
+li > p:last-of-type:only-child {
+  margin-bottom: 0;
+}
+</style>
+<link href="rfc-local.css" rel="stylesheet" type="text/css">
+<script type="application/javascript">async function addMetadata(){try{const e=document.styleSheets[0].cssRules;for(let t=0;t<e.length;t++)if(/#identifiers/.exec(e[t].selectorText)){const a=e[t].cssText.replace("#identifiers","#external-updates");document.styleSheets[0].insertRule(a,document.styleSheets[0].cssRules.length)}}catch(e){console.log(e)}const e=document.getElementById("external-metadata");if(e)try{var t,a="",o=function(e){const t=document.getElementsByTagName("meta");for(let a=0;a<t.length;a++)if(t[a].getAttribute("name")===e)return t[a].getAttribute("content");return""}("rfc.number");if(o){t="https://www.rfc-editor.org/rfc/rfc"+o+".json";try{const e=await fetch(t);a=await e.json()}catch(e){t=document.URL.indexOf("html")>=0?document.URL.replace(/html$/,"json"):document.URL+".json";const o=await fetch(t);a=await o.json()}}if(!a)return;e.style.display="block";const s="",d="https://datatracker.ietf.org/doc",n="https://datatracker.ietf.org/ipr/search",c="https://www.rfc-editor.org/info",l=a.doc_id.toLowerCase(),i=a.doc_id.slice(0,3).toLowerCase(),f=a.doc_id.slice(3).replace(/^0+/,""),u={status:"Status",obsoletes:"Obsoletes",obsoleted_by:"Obsoleted By",updates:"Updates",updated_by:"Updated By",see_also:"See Also",errata_url:"Errata"};let h="<dl style='overflow:hidden' id='external-updates'>";["status","obsoletes","obsoleted_by","updates","updated_by","see_also","errata_url"].forEach(e=>{if("status"==e){a[e]=a[e].toLowerCase();var t=a[e].split(" "),o=t.length,w="",p=1;for(let e=0;e<o;e++)p<o?w=w+r(t[e])+" ":w+=r(t[e]),p++;a[e]=w}else if("obsoletes"==e||"obsoleted_by"==e||"updates"==e||"updated_by"==e){var g,m="",b=1;g=a[e].length;for(let t=0;t<g;t++)a[e][t]&&(a[e][t]=String(a[e][t]).toLowerCase(),m=b<g?m+"<a href='"+s+"/rfc/".concat(a[e][t])+"'>"+a[e][t].slice(3)+"</a>, ":m+"<a href='"+s+"/rfc/".concat(a[e][t])+"'>"+a[e][t].slice(3)+"</a>",b++);a[e]=m}else if("see_also"==e){var y,L="",C=1;y=a[e].length;for(let t=0;t<y;t++)if(a[e][t]){a[e][t]=String(a[e][t]);var _=a[e][t].slice(0,3),v=a[e][t].slice(3).replace(/^0+/,"");L=C<y?"RFC"!=_?L+"<a href='"+s+"/info/"+_.toLowerCase().concat(v.toLowerCase())+"'>"+_+" "+v+"</a>, ":L+"<a href='"+s+"/info/"+_.toLowerCase().concat(v.toLowerCase())+"'>"+v+"</a>, ":"RFC"!=_?L+"<a href='"+s+"/info/"+_.toLowerCase().concat(v.toLowerCase())+"'>"+_+" "+v+"</a>":L+"<a href='"+s+"/info/"+_.toLowerCase().concat(v.toLowerCase())+"'>"+v+"</a>",C++}a[e]=L}else if("errata_url"==e){var R="";R=a[e]?R+"<a href='"+a[e]+"'>Errata exist</a> | <a href='"+d+"/"+l+"'>Datatracker</a>| <a href='"+n+"/?"+i+"="+f+"&submit="+i+"'>IPR</a> | <a href='"+c+"/"+l+"'>Info page</a>":"<a href='"+d+"/"+l+"'>Datatracker</a> | <a href='"+n+"/?"+i+"="+f+"&submit="+i+"'>IPR</a> | <a href='"+c+"/"+l+"'>Info page</a>",a[e]=R}""!=a[e]?"Errata"==u[e]?h+=`<dt>More info:</dt><dd>${a[e]}</dd>`:h+=`<dt>${u[e]}:</dt><dd>${a[e]}</dd>`:"Errata"==u[e]&&(h+=`<dt>More info:</dt><dd>${a[e]}</dd>`)}),h+="</dl>",e.innerHTML=h}catch(e){console.log(e)}else console.log("Could not locate metadata <div> element");function r(e){return e.charAt(0).toUpperCase()+e.slice(1)}}window.removeEventListener("load",addMetadata),window.addEventListener("load",addMetadata);</script>
 </head>
-<body>
-<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<table summary="layout" width="66%" border="0" cellpadding="0" cellspacing="0"><tr><td><table summary="layout" width="100%" border="0" cellpadding="2" cellspacing="1">
-<tr><td class="header">Network Working Group</td><td class="header">J. Mitchell</td></tr>
-<tr><td class="header">Internet-Draft</td><td class="header">C. Wright</td></tr>
-<tr><td class="header">Intended status: Standards Track</td><td class="header">AusRegistry</td></tr>
-<tr><td class="header">Expires: June 4, 2013</td><td class="header">December 2012</td></tr>
-</table></td></tr></table>
-<h1><br />Domain Name Variant Extension Mapping for the
-			Extensible Provisioning
-			Protocol (EPP)<br />draft-ar-variant-epp-mapping-01</h1>
-
-<h3>Abstract</h3>
-
-<p>
-				This document describes an Extensible Provisioning Protocol (EPP)
-				extension mapping for the provisioning and management of variant
-				domain names as attributes of domain objects.
-			
-</p>
-<h3>Status of this Memo</h3>
-<p>
-This document is an Internet-Draft and is
-NOT offered in accordance with Section&nbsp;10 of RFC&nbsp;2026,
-and the author does not provide the IETF with any rights other
-than to publish as an Internet-Draft.</p>
-<p>
-Internet-Drafts are working documents of the Internet Engineering
-Task Force (IETF).  Note that other groups may also distribute
-working documents as Internet-Drafts.  The list of current
-Internet-Drafts is at http://datatracker.ietf.org/drafts/current/.</p>
-<p>
-Internet-Drafts are draft documents valid for a maximum of six months
-and may be updated, replaced, or obsoleted by other documents at any time.
-It is inappropriate to use Internet-Drafts as reference material or to cite
-them other than as &ldquo;work in progress.&rdquo;</p>
-<p>
-This Internet-Draft will expire on June 4, 2013.</p>
-<a name="toc"></a><br /><hr />
-<h3>Table of Contents</h3>
-<p class="toc">
-<a href="#anchor1">1.</a>&nbsp;
-Introduction<br />
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor2">1.1.</a>&nbsp;
-Conventions Used in This Document<br />
-<a href="#anchor3">2.</a>&nbsp;
-Object Attributes<br />
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor4">2.1.</a>&nbsp;
-Variant Domain Names<br />
-<a href="#anchor5">3.</a>&nbsp;
-EPP Command Mapping<br />
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor6">3.1.</a>&nbsp;
-EPP Query Commands<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor7">3.1.1.</a>&nbsp;
-EPP &lt;check&gt; Command<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor8">3.1.2.</a>&nbsp;
-EPP &lt;info&gt; Command<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor9">3.1.3.</a>&nbsp;
-EPP &lt;transfer&gt; Command<br />
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor10">3.2.</a>&nbsp;
-EPP Transform Commands<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor11">3.2.1.</a>&nbsp;
-EPP &lt;create&gt; Command<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor12">3.2.2.</a>&nbsp;
-EPP &lt;delete&gt; Command<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor13">3.2.3.</a>&nbsp;
-EPP &lt;renew&gt; Command<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor14">3.2.4.</a>&nbsp;
-EPP &lt;transfer&gt; Command<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor15">3.2.5.</a>&nbsp;
-EPP &lt;update&gt; Command<br />
-<a href="#anchor16">4.</a>&nbsp;
-Formal Syntax<br />
-<a href="#anchor17">5.</a>&nbsp;
-Security Considerations<br />
-<a href="#rfc.references1">6.</a>&nbsp;
-References<br />
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#rfc.references1">6.1.</a>&nbsp;
-Normative References<br />
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#rfc.references2">6.2.</a>&nbsp;
-Informative References<br />
-<a href="#rfc.authors">&#167;</a>&nbsp;
-Authors' Addresses<br />
-</p>
-<br clear="all" />
-
-<a name="anchor1"></a><br /><hr />
-<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.1"></a><h3>1.&nbsp;
-Introduction</h3>
-
-<p>
-				Internationalized Domain Names have introduced the ability to
-				specify domain names in scripts beyond basic latin, allowing many
-				languages and scripts to be coded as domain names. This however has
-				led to forms of abuse, where malicious users exploit imperfections
-				in the coding of languages in computers to register domain names
-				with the intention of deceiving legitimate users.
-			
-</p>
-<p>
-				Registries, language experts and linguists have collaborated to
-				define variant domain names as names that should be blocked from
-				registration independent of the original name. However, due to
-				technological and contextual issues, some variant domain names
-				should be activated and published in the DNS to provide satisfactory
-				end user experience. This document considers only activated variants;
-				the listing of possible variants and blocked variants of a domain
-				name is out of scope of this extension mapping.
-			
-</p>
-<a name="anchor2"></a><br /><hr />
-<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.1.1"></a><h3>1.1.&nbsp;
-Conventions Used in This Document</h3>
-
-<p>
-					The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
-					"SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in
-					this document are to be interpreted as described in
-					<a class='info' href='#RFC2119'>RFC 2119<span> (</span><span class='info'>Bradner, S., &ldquo;Key words for use in RFCs to Indicate Requirement Levels,&rdquo; March&nbsp;1997.</span><span>)</span></a> [RFC2119].
-				
-</p>
-<p>
-					"variant-1.1" is used as an abbreviation for
-					"urn:ar:params:xml:ns:variant-1.1". The XML namespace prefix
-					"variant" is used, but implementations MUST NOT depend on it and
-					instead employ a proper namespace-aware XML parser and serializer
-					to interpret and output the XML documents.
-				
-</p>
-<a name="anchor3"></a><br /><hr />
-<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.2"></a><h3>2.&nbsp;
-Object Attributes</h3>
-
-<p>
-				This extension adds additional elements to the
-				<a class='info' href='#RFC5731'>EPP Domain Name Mapping<span> (</span><span class='info'>Hollenbeck, S., &ldquo;Extensible Provisioning Protocol (EPP) Domain Name Mapping,&rdquo; August&nbsp;2009.</span><span>)</span></a> [RFC5731].
-				Only those new elements are described here.
-			
-</p>
-<a name="anchor4"></a><br /><hr />
-<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.2.1"></a><h3>2.1.&nbsp;
-Variant Domain Names</h3>
-
-<p>
-					The syntax for variant domain names MUST conform to the syntax for
-					domain and host names described in the
-					<a class='info' href='#RFC5731'>EPP Domain Name Mapping<span> (</span><span class='info'>Hollenbeck, S., &ldquo;Extensible Provisioning Protocol (EPP) Domain Name Mapping,&rdquo; August&nbsp;2009.</span><span>)</span></a> [RFC5731].
-					Servers MUST accept Internationalized Domain Names expressed as
-					A-labels, and MAY accept variants expressed as U-labels. Servers
-					MUST return A-labels in
-					responses unless negotiated with the client
-					using a mechanism
-					outside this document.
-				
-</p>
-<p>
-					Servers SHOULD process query commands matching both the primary
-					registered domain name and any activated variants, and MAY match
-					withheld and blocked variants. Servers SHOULD restrict the use of
-					variants in transform commands, removing perception that variants
-					may be treated as separate objects.
-				
-</p>
-<p>
-					Variants as simple attributes of domain names places some
-					restrictions on servers, clients and end users. In the absence of
-					other extensions, it is not possible to associate a set of name
-					servers to a variant independent of those name servers associated
-					with the primary domain name. Additionally, servers providing
-					mechanisms for clients to have secure delegations will have to
-					support the Key Data Interface of the
-					<a class='info' href='#RFC5910'>EPP DNS Security Extensions Mapping<span> (</span><span class='info'>Gould, J. and S. Hollenbeck, &ldquo;Domain Name System (DNS) Security Extensions Mapping for the Extensible Provisioning Protocol (EPP),&rdquo; May&nbsp;2010.</span><span>)</span></a> [RFC5910]
-					in the absense of other extensions that allow associating DS data
-					with variant domain names.
-				
-</p>
-<a name="anchor5"></a><br /><hr />
-<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.3"></a><h3>3.&nbsp;
-EPP Command Mapping</h3>
-
-<p>
-				A detailed description of the EPP syntax and semantics can be found
-				in the
-				<a class='info' href='#RFC5730'>EPP core protocol specification<span> (</span><span class='info'>Hollenbeck, S., &ldquo;Extensible Provisioning Protocol (EPP),&rdquo; August&nbsp;2009.</span><span>)</span></a> [RFC5730].
-				The command mappings described here are specifically for use in
-				provisioning internationalized domain names.
-			
-</p>
-<a name="anchor6"></a><br /><hr />
-<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.3.1"></a><h3>3.1.&nbsp;
-EPP Query Commands</h3>
-
-<p>
-					EPP provides three commands to retrieve object information:
-					&lt;check&gt; to determine if an object is known to the server,
-					&lt;info&gt; to retrieve detailed information associated with an
-					object, and &lt;transfer&gt; to retrieve object transfer status
-					information.
-				
-</p>
-<a name="anchor7"></a><br /><hr />
-<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.3.1.1"></a><h3>3.1.1.&nbsp;
-EPP &lt;check&gt; Command</h3>
-
-<p>
-						This extension does not define any extension to the EPP
-						&lt;check&gt; command or response described in the
-						<a class='info' href='#RFC5731'>EPP Domain Name Mapping<span> (</span><span class='info'>Hollenbeck, S., &ldquo;Extensible Provisioning Protocol (EPP) Domain Name Mapping,&rdquo; August&nbsp;2009.</span><span>)</span></a> [RFC5731].
-					
-</p>
-<a name="anchor8"></a><br /><hr />
-<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.3.1.2"></a><h3>3.1.2.&nbsp;
-EPP &lt;info&gt; Command</h3>
-
-<p>
-						This extension does not add any elements to the EPP &lt;info&gt;
-						command described in the
-						<a class='info' href='#RFC5731'>EPP Domain Name Mapping<span> (</span><span class='info'>Hollenbeck, S., &ldquo;Extensible Provisioning Protocol (EPP) Domain Name Mapping,&rdquo; August&nbsp;2009.</span><span>)</span></a> [RFC5731].
-						However, additional elements are defined for the &lt;info&gt;
-						response.
-					
-</p>
-<p>
-						To enable clients to determine the active variant domain names,
-						the &lt;domain:infData&gt; response is extended with a
-						&lt;variant:infData&gt; element that contains the following child
-						elements:
-						</p>
-<ul class="text">
-<li>
-								One or more &lt;variant&gt; elements containing the active
-								variant domain names for this domain object.
-							
+<body class="xml2rfc">
+<script src="metadata.min.js"></script>
+<table class="ears">
+<thead><tr>
+<td class="left">Internet-Draft</td>
+<td class="center">EPP IDN Variant Mapping</td>
+<td class="right">October 2025</td>
+</tr></thead>
+<tfoot><tr>
+<td class="left">Pham &amp; Jonnalagadda</td>
+<td class="center">Expires 30 April 2026</td>
+<td class="right">[Page]</td>
+</tr></tfoot>
+</table>
+<div id="external-metadata" class="document-information"></div>
+<div id="internal-metadata" class="document-information">
+<dl id="identifiers">
+<dt class="label-workgroup">Workgroup:</dt>
+<dd class="workgroup">Network Working Group</dd>
+<dt class="label-internet-draft">Internet-Draft:</dt>
+<dd class="internet-draft">draft-ar-variant-epp-mapping-01</dd>
+<dt class="label-published">Published:</dt>
+<dd class="published">
+<time datetime="2025-10" class="published">October 2025</time>
+    </dd>
+<dt class="label-intended-status">Intended Status:</dt>
+<dd class="intended-status">Informational</dd>
+<dt class="label-authors">Authors:</dt>
+<dd class="authors">
+<div class="author">
+      <div class="author-name">Q. Pham</div>
+<div class="org">GoDaddy Registry</div>
+</div>
+<div class="author">
+      <div class="author-name">S. Jonnalagadda</div>
+<div class="org">GoDaddy Registry</div>
+</div>
+</dd>
+</dl>
+</div>
+<h1 id="title">Domain Name Variant Extension Mapping for the Extensible Provisioning Protocol (EPP)</h1>
+<section id="section-abstract">
+      <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
+<p id="section-abstract-1">
+ This document describes an Extensible Provisioning Protocol (EPP)
+ extension mapping for the provisioning and management of variant
+ domain names as attributes of domain objects.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+</section>
+<div id="status-of-memo">
+<section id="section-boilerplate.1">
+        <h2 id="name-status-of-this-memo">
+<a href="#name-status-of-this-memo" class="section-name selfRef">Status of This Memo</a>
+        </h2>
+<p id="section-boilerplate.1-1">
+        This Internet-Draft is submitted in full conformance with the
+        provisions of BCP 78 and BCP 79.<a href="#section-boilerplate.1-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-2">
+        Internet-Drafts are working documents of the Internet Engineering Task
+        Force (IETF). Note that other groups may also distribute working
+        documents as Internet-Drafts. The list of current Internet-Drafts is
+        at <span><a href="https://datatracker.ietf.org/drafts/current/">https://datatracker.ietf.org/drafts/current/</a></span>.<a href="#section-boilerplate.1-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="copyright">
+<section id="section-boilerplate.2">
+        <h2 id="name-copyright-notice">
+<a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
+        </h2>
+<p id="section-boilerplate.2-1">
+            Copyright (c) 2025 IETF Trust and the persons identified as the
+            document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.2-2">
+            This document is subject to BCP 78 and the IETF Trust's Legal
+            Provisions Relating to IETF Documents
+            (<span><a href="https://trustee.ietf.org/license-info">https://trustee.ietf.org/license-info</a></span>) in effect on the date of
+            publication of this document. Please review these documents
+            carefully, as they describe your rights and restrictions with
+            respect to this document. Code Components extracted from this
+            document must include Revised BSD License text as described in
+            Section 4.e of the Trust Legal Provisions and are provided without
+            warranty as described in the Revised BSD License.<a href="#section-boilerplate.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="toc">
+<section id="section-toc.1">
+        <a href="#" onclick="scroll(0,0)" class="toplink">▲</a><h2 id="name-table-of-contents">
+<a href="#name-table-of-contents" class="section-name selfRef">Table of Contents</a>
+        </h2>
+<nav class="toc"><ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1">
+            <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.1">
+                <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="auto internal xref">1.1</a>.  <a href="#name-conventions-used-in-this-do" class="internal xref">Conventions Used in This Document</a></p>
 </li>
-</ul><p>
-					
-</p>
-<p style='text-align: left'>
-							Example &lt;info&gt; response with active variant domain
-							names
-						
-</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2">
+            <p id="section-toc.1-1.2.1"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-object-attributes" class="internal xref">Object Attributes</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.1">
+                <p id="section-toc.1-1.2.2.1.1" class="keepWithNext"><a href="#section-2.1" class="auto internal xref">2.1</a>.  <a href="#name-variant-domain-names" class="internal xref">Variant Domain Names</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-epp-command-mapping" class="internal xref">EPP Command Mapping</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1">
+                <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-epp-query-commands" class="internal xref">EPP Query Commands</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1.2.1">
+                    <p id="section-toc.1-1.3.2.1.2.1.1"><a href="#section-3.1.1" class="auto internal xref">3.1.1</a>.  <a href="#name-epp-check-command" class="internal xref">EPP &lt;check&gt; Command</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1.2.2">
+                    <p id="section-toc.1-1.3.2.1.2.2.1"><a href="#section-3.1.2" class="auto internal xref">3.1.2</a>.  <a href="#name-epp-info-command" class="internal xref">EPP &lt;info&gt; Command</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1.2.3">
+                    <p id="section-toc.1-1.3.2.1.2.3.1"><a href="#section-3.1.3" class="auto internal xref">3.1.3</a>.  <a href="#name-epp-transfer-command" class="internal xref">EPP &lt;transfer&gt; Command</a></p>
+</li>
+                </ul>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2">
+                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-epp-transform-commands" class="internal xref">EPP Transform Commands</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2.2.1">
+                    <p id="section-toc.1-1.3.2.2.2.1.1"><a href="#section-3.2.1" class="auto internal xref">3.2.1</a>.  <a href="#name-epp-create-command" class="internal xref">EPP &lt;create&gt; Command</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2.2.2">
+                    <p id="section-toc.1-1.3.2.2.2.2.1"><a href="#section-3.2.2" class="auto internal xref">3.2.2</a>.  <a href="#name-epp-delete-command" class="internal xref">EPP &lt;delete&gt; Command</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2.2.3">
+                    <p id="section-toc.1-1.3.2.2.2.3.1"><a href="#section-3.2.3" class="auto internal xref">3.2.3</a>.  <a href="#name-epp-renew-command" class="internal xref">EPP &lt;renew&gt; Command</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2.2.4">
+                    <p id="section-toc.1-1.3.2.2.2.4.1"><a href="#section-3.2.4" class="auto internal xref">3.2.4</a>.  <a href="#name-epp-transfer-command-2" class="internal xref">EPP &lt;transfer&gt; Command</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2.2.5">
+                    <p id="section-toc.1-1.3.2.2.2.5.1"><a href="#section-3.2.5" class="auto internal xref">3.2.5</a>.  <a href="#name-epp-update-command" class="internal xref">EPP &lt;update&gt; Command</a></p>
+</li>
+                </ul>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-formal-syntax" class="internal xref">Formal Syntax</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-references" class="internal xref">References</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.1">
+                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.2">
+                <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="auto internal xref">6.2</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
+            <p id="section-toc.1-1.7.1"><a href="#appendix-A" class="auto internal xref"></a><a href="#name-acknowledgements" class="internal xref">Acknowledgements</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
+            <p id="section-toc.1-1.8.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
+</li>
+        </ul>
+</nav>
+</section>
+</div>
+<section id="section-1">
+      <h2 id="name-introduction">
+<a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
+      </h2>
+<p id="section-1-1">
+ Internationalized Domain Names have introduced the ability to
+ specify domain names in scripts beyond basic latin, allowing many
+ languages and scripts to be coded as domain names. This however has
+ led to forms of abuse, where malicious users exploit imperfections
+ in the coding of languages in computers to register domain names
+ with the intention of deceiving legitimate users.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">
+ Registries, language experts and linguists have collaborated to
+ define variant domain names as names that should be blocked from
+ registration independent of the original name. However, due to
+ technological and contextual issues, some variant domain names
+ should be activated and published in the DNS to provide satisfactory
+ end user experience. This document considers only activated variants;
+ the listing of possible variants and blocked variants of a domain
+ name is out of scope of this extension mapping.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<section id="section-1.1">
+        <h3 id="name-conventions-used-in-this-do">
+<a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-conventions-used-in-this-do" class="section-name selfRef">Conventions Used in This Document</a>
+        </h3>
+<p id="section-1.1-1">
+ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+ "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in
+ this document are to be interpreted as described in
+ <span><a href="#RFC2119" class="internal xref">RFC 2119</a> [<a href="#RFC2119" class="cite xref">RFC2119</a>]</span>.<a href="#section-1.1-1" class="pilcrow">¶</a></p>
+<p id="section-1.1-2">
+ "variant-1.1" is used as an abbreviation for
+ "urn:ar:params:xml:ns:variant-1.1". The XML namespace prefix
+ "variant" is used, but implementations MUST NOT depend on it and
+ instead employ a proper namespace-aware XML parser and serializer
+ to interpret and output the XML documents.<a href="#section-1.1-2" class="pilcrow">¶</a></p>
+</section>
+</section>
+<section id="section-2">
+      <h2 id="name-object-attributes">
+<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-object-attributes" class="section-name selfRef">Object Attributes</a>
+      </h2>
+<p id="section-2-1">
+ This extension adds additional elements to the
+ <span><a href="#RFC5731" class="internal xref">EPP Domain Name Mapping</a> [<a href="#RFC5731" class="cite xref">RFC5731</a>]</span>.
+ Only those new elements are described here.<a href="#section-2-1" class="pilcrow">¶</a></p>
+<section id="section-2.1">
+        <h3 id="name-variant-domain-names">
+<a href="#section-2.1" class="section-number selfRef">2.1. </a><a href="#name-variant-domain-names" class="section-name selfRef">Variant Domain Names</a>
+        </h3>
+<p id="section-2.1-1">
+ The syntax for variant domain names MUST conform to the syntax for
+ domain and host names described in the
+ <span><a href="#RFC5731" class="internal xref">EPP Domain Name Mapping</a> [<a href="#RFC5731" class="cite xref">RFC5731</a>]</span>.
+ Servers MUST accept Internationalized Domain Names expressed as
+ A-labels, and MAY accept variants expressed as U-labels. Servers
+ MUST return A-labels in
+ responses unless negotiated with the client
+ using a mechanism
+ outside this document.<a href="#section-2.1-1" class="pilcrow">¶</a></p>
+<p id="section-2.1-2">
+ Servers SHOULD process query commands matching both the primary
+ registered domain name and any activated variants, and MAY match
+ withheld and blocked variants. Servers SHOULD restrict the use of
+ variants in transform commands, removing perception that variants
+ may be treated as separate objects.<a href="#section-2.1-2" class="pilcrow">¶</a></p>
+<p id="section-2.1-3">
+ Variants as simple attributes of domain names places some
+ restrictions on servers, clients and end users. In the absence of
+ other extensions, it is not possible to associate a set of name
+ servers to a variant independent of those name servers associated
+ with the primary domain name. Additionally, servers providing
+ mechanisms for clients to have secure delegations will have to
+ support the Key Data Interface of the
+ <span><a href="#RFC5910" class="internal xref">EPP DNS Security Extensions Mapping</a> [<a href="#RFC5910" class="cite xref">RFC5910</a>]</span>
+ in the absense of other extensions that allow associating DS data
+ with variant domain names.<a href="#section-2.1-3" class="pilcrow">¶</a></p>
+</section>
+</section>
+<section id="section-3">
+      <h2 id="name-epp-command-mapping">
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-epp-command-mapping" class="section-name selfRef">EPP Command Mapping</a>
+      </h2>
+<p id="section-3-1">
+ A detailed description of the EPP syntax and semantics can be found
+ in the
+ <span><a href="#RFC5730" class="internal xref">EPP core protocol specification</a> [<a href="#RFC5730" class="cite xref">RFC5730</a>]</span>.
+ The command mappings described here are specifically for use in
+ provisioning internationalized domain names.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<section id="section-3.1">
+        <h3 id="name-epp-query-commands">
+<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-epp-query-commands" class="section-name selfRef">EPP Query Commands</a>
+        </h3>
+<p id="section-3.1-1">
+ EPP provides three commands to retrieve object information:
+ &lt;check&gt; to determine if an object is known to the server,
+ &lt;info&gt; to retrieve detailed information associated with an
+ object, and &lt;transfer&gt; to retrieve object transfer status
+ information.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
+<section id="section-3.1.1">
+          <h4 id="name-epp-check-command">
+<a href="#section-3.1.1" class="section-number selfRef">3.1.1. </a><a href="#name-epp-check-command" class="section-name selfRef">EPP &lt;check&gt; Command</a>
+          </h4>
+<p id="section-3.1.1-1">
+ This extension does not define any extension to the EPP
+ &lt;check&gt; command or response described in the
+ <span><a href="#RFC5731" class="internal xref">EPP Domain Name Mapping</a> [<a href="#RFC5731" class="cite xref">RFC5731</a>]</span>.<a href="#section-3.1.1-1" class="pilcrow">¶</a></p>
+</section>
+<section id="section-3.1.2">
+          <h4 id="name-epp-info-command">
+<a href="#section-3.1.2" class="section-number selfRef">3.1.2. </a><a href="#name-epp-info-command" class="section-name selfRef">EPP &lt;info&gt; Command</a>
+          </h4>
+<p id="section-3.1.2-1">
+ This extension does not add any elements to the EPP &lt;info&gt;
+ command described in the
+ <span><a href="#RFC5731" class="internal xref">EPP Domain Name Mapping</a> [<a href="#RFC5731" class="cite xref">RFC5731</a>]</span>.
+ However, additional elements are defined for the &lt;info&gt;
+ response.<a href="#section-3.1.2-1" class="pilcrow">¶</a></p>
+<p id="section-3.1.2-2">
+ To enable clients to determine the active variant domain names,
+ the &lt;domain:infData&gt; response is extended with a
+ &lt;variant:infData&gt; element that contains the following child
+ elements:<a href="#section-3.1.2-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.1.2-3.1">
+              <p id="section-3.1.2-3.1.1">
+ One or more &lt;variant&gt; elements containing the active
+ variant domain names for this domain object.<a href="#section-3.1.2-3.1.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+<p id="section-3.1.2-4" class="keepWithNext">
+ Example &lt;info&gt; response with active variant domain
+ names<a href="#section-3.1.2-4" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3.1.2-5">
+<pre>
 &lt;?xml version="1.0" standalone="no"?&gt;
 &lt;epp xmlns="urn:ietf:params:xml:ns:epp-1.0"&gt;
   &lt;response&gt;
@@ -436,77 +1557,67 @@ EPP &lt;info&gt; Command</h3>
     &lt;/trID&gt;
   &lt;/response&gt;
 &lt;/epp&gt;
-</pre></div>
-<p>
-						To facilitate the transfer of domain names, the list of
-						activated variants should be available to authorized clients prior
-						to transfer. Servers that require authorization information to
-						begin the transfer process MAY restrict the list of activated
-						variants to those commands where correct authorization information
-						is provided.
-					
-</p>
-<a name="anchor9"></a><br /><hr />
-<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.3.1.3"></a><h3>3.1.3.&nbsp;
-EPP &lt;transfer&gt; Command</h3>
-
-<p>
-						This extension does not define any extension to the EPP
-						&lt;transfer&gt; command or response described in the
-						<a class='info' href='#RFC5731'>EPP Domain Name Mapping<span> (</span><span class='info'>Hollenbeck, S., &ldquo;Extensible Provisioning Protocol (EPP) Domain Name Mapping,&rdquo; August&nbsp;2009.</span><span>)</span></a> [RFC5731].
-					
-</p>
-<a name="anchor10"></a><br /><hr />
-<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.3.2"></a><h3>3.2.&nbsp;
-EPP Transform Commands</h3>
-
-<p>
-					EPP provides five commands to transform objects: &lt;create&gt;
-					to create an instance of an object, &lt;delete&gt; to delete an
-					instance of an object, &lt;renew&gt; to extend the validity period
-					of an object, &lt;transfer&gt; to manage object sponsorship
-					changes, and &lt;update&gt; to change information associated with
-					an object.
-				
-</p>
-<a name="anchor11"></a><br /><hr />
-<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.3.2.1"></a><h3>3.2.1.&nbsp;
-EPP &lt;create&gt; Command</h3>
-
-<p>
-						This extension does not add any elements to the EPP &lt;create&gt;
-						command described in the
-						<a class='info' href='#RFC5731'>EPP Domain Name Mapping<span> (</span><span class='info'>Hollenbeck, S., &ldquo;Extensible Provisioning Protocol (EPP) Domain Name Mapping,&rdquo; August&nbsp;2009.</span><span>)</span></a> [RFC5731].
-						However, additional elements are defined for the &lt;create&gt;
-						response.
-					
-</p>
-<p>
-						Servers may automatically generate and activate variant domain
-						names upon registration of specific domain names, based on rules
-						determined by the server operator, and usually described in an IDN
-						table. In addition to the elements expressed in the
-						&lt;domain:creData&gt;, the response is extended with a
-						&lt;variant:creData&gt; element that contains the following child
-						elements:
-						</p>
-<ul class="text">
-<li>
-								One or more &lt;variant:variant&gt; elements containing the
-								variant domain names automatically activated by the server.
-							
+</pre><a href="#section-3.1.2-5" class="pilcrow">¶</a>
+</div>
+<p id="section-3.1.2-6">
+ To facilitate the transfer of domain names, the list of
+ activated variants should be available to authorized clients prior
+ to transfer. Servers that require authorization information to
+ begin the transfer process MAY restrict the list of activated
+ variants to those commands where correct authorization information
+ is provided.<a href="#section-3.1.2-6" class="pilcrow">¶</a></p>
+</section>
+<section id="section-3.1.3">
+          <h4 id="name-epp-transfer-command">
+<a href="#section-3.1.3" class="section-number selfRef">3.1.3. </a><a href="#name-epp-transfer-command" class="section-name selfRef">EPP &lt;transfer&gt; Command</a>
+          </h4>
+<p id="section-3.1.3-1">
+ This extension does not define any extension to the EPP
+ &lt;transfer&gt; command or response described in the
+ <span><a href="#RFC5731" class="internal xref">EPP Domain Name Mapping</a> [<a href="#RFC5731" class="cite xref">RFC5731</a>]</span>.<a href="#section-3.1.3-1" class="pilcrow">¶</a></p>
+</section>
+</section>
+<section id="section-3.2">
+        <h3 id="name-epp-transform-commands">
+<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-epp-transform-commands" class="section-name selfRef">EPP Transform Commands</a>
+        </h3>
+<p id="section-3.2-1">
+ EPP provides five commands to transform objects: &lt;create&gt;
+ to create an instance of an object, &lt;delete&gt; to delete an
+ instance of an object, &lt;renew&gt; to extend the validity period
+ of an object, &lt;transfer&gt; to manage object sponsorship
+ changes, and &lt;update&gt; to change information associated with
+ an object.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
+<section id="section-3.2.1">
+          <h4 id="name-epp-create-command">
+<a href="#section-3.2.1" class="section-number selfRef">3.2.1. </a><a href="#name-epp-create-command" class="section-name selfRef">EPP &lt;create&gt; Command</a>
+          </h4>
+<p id="section-3.2.1-1">
+ This extension does not add any elements to the EPP &lt;create&gt;
+ command described in the
+ <span><a href="#RFC5731" class="internal xref">EPP Domain Name Mapping</a> [<a href="#RFC5731" class="cite xref">RFC5731</a>]</span>.
+ However, additional elements are defined for the &lt;create&gt;
+ response.<a href="#section-3.2.1-1" class="pilcrow">¶</a></p>
+<p id="section-3.2.1-2">
+ Servers may automatically generate and activate variant domain
+ names upon registration of specific domain names, based on rules
+ determined by the server operator, and usually described in an IDN
+ table. In addition to the elements expressed in the
+ &lt;domain:creData&gt;, the response is extended with a
+ &lt;variant:creData&gt; element that contains the following child
+ elements:<a href="#section-3.2.1-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.2.1-3.1">
+              <p id="section-3.2.1-3.1.1">
+ One or more &lt;variant:variant&gt; elements containing the
+ variant domain names automatically activated by the server.<a href="#section-3.2.1-3.1.1" class="pilcrow">¶</a></p>
 </li>
-</ul><p>
-					
-</p>
-<p style='text-align: left'>
-							Example &lt;create&gt; response containing automatically
-							activated variant domain names
-						
-</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+          </ul>
+<p id="section-3.2.1-4" class="keepWithNext">
+ Example &lt;create&gt; response containing automatically
+ activated variant domain names<a href="#section-3.2.1-4" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3.2.1-5">
+<pre>
 &lt;?xml version="1.0" standalone="no"?&gt;
 &lt;epp xmlns="urn:ietf:params:xml:ns:epp-1.0"&gt;
   &lt;response&gt;
@@ -531,83 +1642,73 @@ EPP &lt;create&gt; Command</h3>
     &lt;/trID&gt;
   &lt;/response&gt;
 &lt;/epp&gt;
-</pre></div>
-<a name="anchor12"></a><br /><hr />
-<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.3.2.2"></a><h3>3.2.2.&nbsp;
-EPP &lt;delete&gt; Command</h3>
-
-<p>
-						This extension does not define any extension to the EPP
-						&lt;delete&gt; command or response described in the
-						<a class='info' href='#RFC5731'>EPP Domain Name Mapping<span> (</span><span class='info'>Hollenbeck, S., &ldquo;Extensible Provisioning Protocol (EPP) Domain Name Mapping,&rdquo; August&nbsp;2009.</span><span>)</span></a> [RFC5731].
-					
-</p>
-<a name="anchor13"></a><br /><hr />
-<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.3.2.3"></a><h3>3.2.3.&nbsp;
-EPP &lt;renew&gt; Command</h3>
-
-<p>
-						This extension does not define any extension to the EPP
-						&lt;renew&gt; command or response described in the
-						<a class='info' href='#RFC5731'>EPP Domain Name Mapping<span> (</span><span class='info'>Hollenbeck, S., &ldquo;Extensible Provisioning Protocol (EPP) Domain Name Mapping,&rdquo; August&nbsp;2009.</span><span>)</span></a> [RFC5731].
-					
-</p>
-<a name="anchor14"></a><br /><hr />
-<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.3.2.4"></a><h3>3.2.4.&nbsp;
-EPP &lt;transfer&gt; Command</h3>
-
-<p>
-						This extension does not define any extension to the EPP
-						&lt;transfer&gt; command or response described in the
-						<a class='info' href='#RFC5731'>EPP Domain Name Mapping<span> (</span><span class='info'>Hollenbeck, S., &ldquo;Extensible Provisioning Protocol (EPP) Domain Name Mapping,&rdquo; August&nbsp;2009.</span><span>)</span></a> [RFC5731].
-					
-</p>
-<a name="anchor15"></a><br /><hr />
-<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.3.2.5"></a><h3>3.2.5.&nbsp;
-EPP &lt;update&gt; Command</h3>
-
-<p>
-						This extension defines additional elements for the EPP
-						&lt;update&gt; command described in the
-						<a class='info' href='#RFC5731'>EPP Domain Name Mapping<span> (</span><span class='info'>Hollenbeck, S., &ldquo;Extensible Provisioning Protocol (EPP) Domain Name Mapping,&rdquo; August&nbsp;2009.</span><span>)</span></a> [RFC5731].
-						No additional elements are defined for the EPP &lt;update&gt;
-						response.
-					
-</p>
-<p>
-						The EPP &lt;update&gt; command provides a transform operation that
-						allows a client to modify the attributes of a domain object.
-						Servers may, subject to local policy, allow the modification of
-						the list of activated variants for a domain name. In addition to
-						the elements expressed in the &lt;domain:update&gt;, the command
-						is extended with a &lt;variant:update&gt; element that contains
-						the following child elements:
-						</p>
-<ul class="text">
-<li>
-								An optional &lt;variant:rem&gt; element containing child
-								&lt;variant:variant&gt; elements describing the variant domain
-								names that should be withheld from delegation in the DNS.
-							
+</pre><a href="#section-3.2.1-5" class="pilcrow">¶</a>
+</div>
+</section>
+<section id="section-3.2.2">
+          <h4 id="name-epp-delete-command">
+<a href="#section-3.2.2" class="section-number selfRef">3.2.2. </a><a href="#name-epp-delete-command" class="section-name selfRef">EPP &lt;delete&gt; Command</a>
+          </h4>
+<p id="section-3.2.2-1">
+ This extension does not define any extension to the EPP
+ &lt;delete&gt; command or response described in the
+ <span><a href="#RFC5731" class="internal xref">EPP Domain Name Mapping</a> [<a href="#RFC5731" class="cite xref">RFC5731</a>]</span>.<a href="#section-3.2.2-1" class="pilcrow">¶</a></p>
+</section>
+<section id="section-3.2.3">
+          <h4 id="name-epp-renew-command">
+<a href="#section-3.2.3" class="section-number selfRef">3.2.3. </a><a href="#name-epp-renew-command" class="section-name selfRef">EPP &lt;renew&gt; Command</a>
+          </h4>
+<p id="section-3.2.3-1">
+ This extension does not define any extension to the EPP
+ &lt;renew&gt; command or response described in the
+ <span><a href="#RFC5731" class="internal xref">EPP Domain Name Mapping</a> [<a href="#RFC5731" class="cite xref">RFC5731</a>]</span>.<a href="#section-3.2.3-1" class="pilcrow">¶</a></p>
+</section>
+<section id="section-3.2.4">
+          <h4 id="name-epp-transfer-command-2">
+<a href="#section-3.2.4" class="section-number selfRef">3.2.4. </a><a href="#name-epp-transfer-command-2" class="section-name selfRef">EPP &lt;transfer&gt; Command</a>
+          </h4>
+<p id="section-3.2.4-1">
+ This extension does not define any extension to the EPP
+ &lt;transfer&gt; command or response described in the
+ <span><a href="#RFC5731" class="internal xref">EPP Domain Name Mapping</a> [<a href="#RFC5731" class="cite xref">RFC5731</a>]</span>.<a href="#section-3.2.4-1" class="pilcrow">¶</a></p>
+</section>
+<section id="section-3.2.5">
+          <h4 id="name-epp-update-command">
+<a href="#section-3.2.5" class="section-number selfRef">3.2.5. </a><a href="#name-epp-update-command" class="section-name selfRef">EPP &lt;update&gt; Command</a>
+          </h4>
+<p id="section-3.2.5-1">
+ This extension defines additional elements for the EPP
+ &lt;update&gt; command described in the
+ <span><a href="#RFC5731" class="internal xref">EPP Domain Name Mapping</a> [<a href="#RFC5731" class="cite xref">RFC5731</a>]</span>.
+ No additional elements are defined for the EPP &lt;update&gt;
+ response.<a href="#section-3.2.5-1" class="pilcrow">¶</a></p>
+<p id="section-3.2.5-2">
+ The EPP &lt;update&gt; command provides a transform operation that
+ allows a client to modify the attributes of a domain object.
+ Servers may, subject to local policy, allow the modification of
+ the list of activated variants for a domain name. In addition to
+ the elements expressed in the &lt;domain:update&gt;, the command
+ is extended with a &lt;variant:update&gt; element that contains
+ the following child elements:<a href="#section-3.2.5-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.2.5-3.1">
+              <p id="section-3.2.5-3.1.1">
+ An optional &lt;variant:rem&gt; element containing child
+ &lt;variant:variant&gt; elements describing the variant domain
+ names that should be withheld from delegation in the DNS.<a href="#section-3.2.5-3.1.1" class="pilcrow">¶</a></p>
 </li>
-<li>
-								An optional &lt;variant:add&gt; element containing child
-								&lt;variant:variant&gt; elements describing the variant domain
-								names that should be activated and delegated in the DNS.
-							
+            <li class="normal" id="section-3.2.5-3.2">
+              <p id="section-3.2.5-3.2.1">
+ An optional &lt;variant:add&gt; element containing child
+ &lt;variant:variant&gt; elements describing the variant domain
+ names that should be activated and delegated in the DNS.<a href="#section-3.2.5-3.2.1" class="pilcrow">¶</a></p>
 </li>
-</ul><p>
-					
-</p>
-<p style='text-align: left'>
-							Example &lt;update&gt; command to activate a variant
-							domain name
-						
-</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+          </ul>
+<p id="section-3.2.5-4" class="keepWithNext">
+ Example &lt;update&gt; command to activate a variant
+ domain name<a href="#section-3.2.5-4" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3.2.5-5">
+<pre>
 &lt;?xml version="1.0" standalone="no"?&gt;
 &lt;epp xmlns="urn:ietf:params:xml:ns:epp-1.0"&gt;
   &lt;command&gt;
@@ -626,27 +1727,28 @@ EPP &lt;update&gt; Command</h3>
     &lt;clTRID&gt;ABC-12345&lt;/clTRID&gt;
   &lt;/command&gt;
 &lt;/epp&gt;
-</pre></div>
-<p>
-						In order to support local business rules, servers MAY reject
-						commands that to update both the list of active variants and
-						modify other domain attributes.
-					
-</p>
-<a name="anchor16"></a><br /><hr />
-<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.4"></a><h3>4.&nbsp;
-Formal Syntax</h3>
-
-<p>
-				An EPP object mapping is specified in XML Schema notation. The
-				formal
-				syntax presented here is a complete schema representation of
-				the
-				object mapping, suitable for automated validation of EPP XML
-				instances.
-			
-</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+</pre><a href="#section-3.2.5-5" class="pilcrow">¶</a>
+</div>
+<p id="section-3.2.5-6">
+ In order to support local business rules, servers MAY reject
+ commands that to update both the list of active variants and
+ modify other domain attributes.<a href="#section-3.2.5-6" class="pilcrow">¶</a></p>
+</section>
+</section>
+</section>
+<section id="section-4">
+      <h2 id="name-formal-syntax">
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-formal-syntax" class="section-name selfRef">Formal Syntax</a>
+      </h2>
+<p id="section-4-1">
+ An EPP object mapping is specified in XML Schema notation. The
+ formal
+ syntax presented here is a complete schema representation of
+ the
+ object mapping, suitable for automated validation of EPP XML
+ instances.<a href="#section-4-1" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-4-2">
+<pre>
 &lt;?xml version="1.0" standalone="no"?&gt;
 &lt;schema targetNamespace="urn:ar:params:xml:ns:variant-1.1"
   xmlns:variant="urn:ar:params:xml:ns:variant-1.1"
@@ -683,80 +1785,114 @@ Formal Syntax</h3>
   &lt;/complexType&gt;
 
 &lt;/schema&gt;
-</pre></div>
-<a name="anchor17"></a><br /><hr />
-<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.5"></a><h3>5.&nbsp;
-Security Considerations</h3>
-
-<p>
-				The mapping extensions described in this document do not provide any
-				security services beyond those described by
-				<a class='info' href='#RFC5730'>EPP<span> (</span><span class='info'>Hollenbeck, S., &ldquo;Extensible Provisioning Protocol (EPP),&rdquo; August&nbsp;2009.</span><span>)</span></a> [RFC5730],
-				the
-				<a class='info' href='#RFC5731'>EPP Domain Name Mapping<span> (</span><span class='info'>Hollenbeck, S., &ldquo;Extensible Provisioning Protocol (EPP) Domain Name Mapping,&rdquo; August&nbsp;2009.</span><span>)</span></a> [RFC5731],
-				and protocol layers used by EPP. The security considerations
-				described in these other specifications apply to this specification
-				as well.
-			
-</p>
-<a name="rfc.references"></a><br /><hr />
-<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.6"></a><h3>6.&nbsp;
-References</h3>
-
-<a name="rfc.references1"></a><br /><hr />
-<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<h3>6.1.&nbsp;Normative References</h3>
-<table width="99%" border="0">
-<tr><td class="author-text" valign="top"><a name="RFC2119">[RFC2119]</a></td>
-<td class="author-text"><a href="mailto:sob@harvard.edu">Bradner, S.</a>, &ldquo;<a href="http://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>,&rdquo; BCP&nbsp;14, RFC&nbsp;2119, March&nbsp;1997 (<a href="http://www.rfc-editor.org/rfc/rfc2119.txt">TXT</a>, <a href="http://xml.resource.org/public/rfc/html/rfc2119.html">HTML</a>, <a href="http://xml.resource.org/public/rfc/xml/rfc2119.xml">XML</a>).</td></tr>
-<tr><td class="author-text" valign="top"><a name="RFC5730">[RFC5730]</a></td>
-<td class="author-text">Hollenbeck, S., &ldquo;<a href="http://tools.ietf.org/html/rfc5730">Extensible Provisioning Protocol (EPP)</a>,&rdquo; STD&nbsp;69, RFC&nbsp;5730, August&nbsp;2009 (<a href="http://www.rfc-editor.org/rfc/rfc5730.txt">TXT</a>).</td></tr>
-<tr><td class="author-text" valign="top"><a name="RFC5731">[RFC5731]</a></td>
-<td class="author-text">Hollenbeck, S., &ldquo;<a href="http://tools.ietf.org/html/rfc5731">Extensible Provisioning Protocol (EPP) Domain Name Mapping</a>,&rdquo; STD&nbsp;69, RFC&nbsp;5731, August&nbsp;2009 (<a href="http://www.rfc-editor.org/rfc/rfc5731.txt">TXT</a>).</td></tr>
-</table>
-
-<a name="rfc.references2"></a><br /><hr />
-<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<h3>6.2.&nbsp;Informative References</h3>
-<table width="99%" border="0">
-<tr><td class="author-text" valign="top"><a name="RFC5910">[RFC5910]</a></td>
-<td class="author-text">Gould, J. and S. Hollenbeck, &ldquo;<a href="http://tools.ietf.org/html/rfc5910">Domain Name System (DNS) Security Extensions Mapping for the Extensible Provisioning Protocol (EPP)</a>,&rdquo; RFC&nbsp;5910, May&nbsp;2010 (<a href="http://www.rfc-editor.org/rfc/rfc5910.txt">TXT</a>).</td></tr>
-</table>
-
-<a name="rfc.authors"></a><br /><hr />
-<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<h3>Authors' Addresses</h3>
-<table width="99%" border="0" cellpadding="0" cellspacing="0">
-<tr><td class="author-text">&nbsp;</td>
-<td class="author-text">James Mitchell</td></tr>
-<tr><td class="author-text">&nbsp;</td>
-<td class="author-text">AusRegistry</td></tr>
-<tr><td class="author-text">&nbsp;</td>
-<td class="author-text">8/10 Queens Road</td></tr>
-<tr><td class="author-text">&nbsp;</td>
-<td class="author-text">Melbourne, Victoria  3004</td></tr>
-<tr><td class="author-text">&nbsp;</td>
-<td class="author-text">AU</td></tr>
-<tr><td class="author" align="right">Email:&nbsp;</td>
-<td class="author-text"><a href="mailto:james.mitchell@ausregistry.com">james.mitchell@ausregistry.com</a></td></tr>
-<tr><td class="author" align="right">URI:&nbsp;</td>
-<td class="author-text"><a href="www.ausregistry.com">www.ausregistry.com</a></td></tr>
-<tr cellpadding="3"><td>&nbsp;</td><td>&nbsp;</td></tr>
-<tr><td class="author-text">&nbsp;</td>
-<td class="author-text">Chris Wright</td></tr>
-<tr><td class="author-text">&nbsp;</td>
-<td class="author-text">AusRegistry</td></tr>
-<tr><td class="author-text">&nbsp;</td>
-<td class="author-text">8/10 Queens Road</td></tr>
-<tr><td class="author-text">&nbsp;</td>
-<td class="author-text">Melbourne, Victoria  3004</td></tr>
-<tr><td class="author-text">&nbsp;</td>
-<td class="author-text">AU</td></tr>
-<tr><td class="author" align="right">Email:&nbsp;</td>
-<td class="author-text"><a href="mailto:chris@ausregistry.com">chris@ausregistry.com</a></td></tr>
-<tr><td class="author" align="right">URI:&nbsp;</td>
-<td class="author-text"><a href="www.ausregistry.com">www.ausregistry.com</a></td></tr>
-</table>
-</body></html>
+</pre><a href="#section-4-2" class="pilcrow">¶</a>
+</div>
+</section>
+<section id="section-5">
+      <h2 id="name-security-considerations">
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+      </h2>
+<p id="section-5-1">
+ The mapping extensions described in this document do not provide any
+ security services beyond those described by
+ <span><a href="#RFC5730" class="internal xref">EPP</a> [<a href="#RFC5730" class="cite xref">RFC5730</a>]</span>,
+ the
+ <span><a href="#RFC5731" class="internal xref">EPP Domain Name Mapping</a> [<a href="#RFC5731" class="cite xref">RFC5731</a>]</span>,
+ and protocol layers used by EPP. The security considerations
+ described in these other specifications apply to this specification
+ as well.<a href="#section-5-1" class="pilcrow">¶</a></p>
+</section>
+<section id="section-6">
+      <h2 id="name-references">
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-references" class="section-name selfRef">References</a>
+      </h2>
+<section id="section-6.1">
+        <h3 id="name-normative-references">
+<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+        </h3>
+<dl class="references">
+<dt id="RFC2119">[RFC2119]</dt>
+        <dd>
+<span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc2119">https://www.rfc-editor.org/info/rfc2119</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC5730">[RFC5730]</dt>
+        <dd>
+<span class="refAuthor">Hollenbeck, S.</span>, <span class="refTitle">"Extensible Provisioning Protocol (EPP)"</span>, <span class="seriesInfo">STD 69</span>, <span class="seriesInfo">RFC 5730</span>, <span class="seriesInfo">DOI 10.17487/RFC5730</span>, <time datetime="2009-08" class="refDate">August 2009</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc5730">https://www.rfc-editor.org/info/rfc5730</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC5731">[RFC5731]</dt>
+      <dd>
+<span class="refAuthor">Hollenbeck, S.</span>, <span class="refTitle">"Extensible Provisioning Protocol (EPP) Domain Name Mapping"</span>, <span class="seriesInfo">STD 69</span>, <span class="seriesInfo">RFC 5731</span>, <span class="seriesInfo">DOI 10.17487/RFC5731</span>, <time datetime="2009-08" class="refDate">August 2009</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc5731">https://www.rfc-editor.org/info/rfc5731</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+<section id="section-6.2">
+        <h3 id="name-informative-references">
+<a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
+        </h3>
+<dl class="references">
+<dt id="RFC5910">[RFC5910]</dt>
+      <dd>
+<span class="refAuthor">Gould, J.</span> and <span class="refAuthor">S. Hollenbeck</span>, <span class="refTitle">"Domain Name System (DNS) Security Extensions Mapping for the Extensible Provisioning Protocol (EPP)"</span>, <span class="seriesInfo">RFC 5910</span>, <span class="seriesInfo">DOI 10.17487/RFC5910</span>, <time datetime="2010-05" class="refDate">May 2010</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc5910">https://www.rfc-editor.org/info/rfc5910</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+</section>
+<div id="Acknowledgements">
+<section id="appendix-A">
+      <h2 id="name-acknowledgements">
+<a href="#name-acknowledgements" class="section-name selfRef">Acknowledgements</a>
+      </h2>
+<p id="appendix-A-1">The authors wish to thank the following persons for their contributions: James Mitchell and Chris Wright.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="authors-addresses">
+<section id="appendix-B">
+      <h2 id="name-authors-addresses">
+<a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
+      </h2>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Quoc Pham</span></div>
+<div dir="auto" class="left"><span class="org">GoDaddy Registry</span></div>
+<div dir="auto" class="left"><span class="street-address">16th Floor<br>100 S Mill Ave</span></div>
+<div dir="auto" class="left">
+<span class="locality">Tempe</span>, <span class="region">AZ</span> <span class="postal-code">85281</span>
+</div>
+<div dir="auto" class="left"><span class="country-name">United States of America</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:quoc@registry.godaddy" class="email">quoc@registry.godaddy</a>
+</div>
+<div class="url">
+<span>URI:</span>
+<a href="https://www.registry.godaddy" class="url">https://www.registry.godaddy</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Sharon Jonnalagadda</span></div>
+<div dir="auto" class="left"><span class="org">GoDaddy Registry</span></div>
+<div dir="auto" class="left"><span class="street-address">16th Floor<br>100 S Mill Ave</span></div>
+<div dir="auto" class="left">
+<span class="locality">Tempe</span>, <span class="region">AZ</span> <span class="postal-code">85281</span>
+</div>
+<div dir="auto" class="left"><span class="country-name">United States of America</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:sharon@registry.godaddy" class="email">sharon@registry.godaddy</a>
+</div>
+<div class="url">
+<span>URI:</span>
+<a href="https://www.registry.godaddy" class="url">https://www.registry.godaddy</a>
+</div>
+</address>
+</section>
+</div>
+<script>const toc = document.getElementById("toc");
+toc.querySelector("h2").addEventListener("click", e => {
+  toc.classList.toggle("active");
+});
+toc.querySelector("nav").addEventListener("click", e => {
+  toc.classList.remove("active");
+});
+</script>
+</body>
+</html>
